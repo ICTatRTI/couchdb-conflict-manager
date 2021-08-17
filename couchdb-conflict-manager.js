@@ -9,6 +9,7 @@ class CouchdbConflictManager extends LitElement {
 
   static get properties() {
     return { 
+      dbUrl: { type: String },
       route: { type: String },
       ready: { type: String }
     };
