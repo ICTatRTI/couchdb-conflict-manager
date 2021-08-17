@@ -93,7 +93,7 @@ class CouchdbConflictManager extends LitElement {
       `: ''}
       ${this.ready ? html`
         ${this.route === '' ? html`
-          <h1 style="margin-left: 15px;">Data Tools</h1>
+          <h1 style="margin-left: 15px;">CouchDB Conflict Manager</h1>
           <ul>
             <li @click="${() => this.go('active-conflicts')}">Active Conflicts</li>
             <li @click="${() => this.go('archived-conflicts')}">Archived Conflicts</li>
