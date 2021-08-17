@@ -8,10 +8,12 @@
   },
   "dependencies": {
     "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-input": "^3.2.1",
     "@polymer/polymer": "^3.0.0",
     "@webpack-cli/serve": "^1.5.2",
     "axios": "^0.21.1",
     "jsondiffpatch": "^0.4.1",
+    "juicy-ace-editor": "git://github.com/Juicy/juicy-ace-editor.git#ES6-modules",
     "lit-element": "^2.3.1",
     "pouchdb": "^7.2.2"
   },
