@@ -1,11 +1,10 @@
 import { sharedStyles } from './shared-styles.js'
-import axios from 'axios'
 import * as Jsondiffpatch from 'jsondiffpatch'
 var jsondiffpatch = Jsondiffpatch.create({});
-
-
 import { LitElement, html } from 'lit-element'
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
+import { get } from './http.js';
+
 class DataLog extends LitElement {
 
   static get styles() {
@@ -35,7 +34,7 @@ class DataLog extends LitElement {
   async connectedCallback() {
     super.connectedCallback()
     const groupId = window.location.pathname.split('/')[2]
-    const result = await axios.get(`${this.dbUrl}-log/_all_docs?include_docs=true`)
+    const result = await get(`${this.dbUrl}-log/_all_docs?include_docs=true`)
     this.list = result.data.rows
       .map(row => row.doc)
       .sort((a, b) => b.timestamp.localeCompare(a.timestamp))

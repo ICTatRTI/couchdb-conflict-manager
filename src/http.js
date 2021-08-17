@@ -18,7 +18,7 @@ export async function get(dbUrl) {
     headers 
   })
   if (!response.ok) {
-    throw new Error(err)
+    throw new Error(response)
   } else {
     return await response.json()
   }

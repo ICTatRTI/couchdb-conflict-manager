@@ -1,11 +1,11 @@
 import { sharedStyles } from './shared-styles.js'
-import axios from 'axios'
 import * as Jsondiffpatch from 'jsondiffpatch'
 var jsondiffpatch = Jsondiffpatch.create({});
 
 
 import { LitElement, html } from 'lit-element'
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
+import { get } from './http.js';
 class ArchivedConflicts extends LitElement {
 
   static get styles() {
@@ -36,7 +36,7 @@ class ArchivedConflicts extends LitElement {
   async connectedCallback() {
     super.connectedCallback()
     const groupId = window.location.pathname.split('/')[2]
-    const result = await axios.get(`/db/${groupId}-conflict-revs/_design/byConflictDocId/_view/byConflictDocId?reduce=true&group_level=1`)
+    const result = await get(`${this.dbUrl}-conflict-revs/_design/byConflictDocId/_view/byConflictDocId?reduce=true&group_level=1`)
     this.list = result.data.rows.map(row => {
       return { 
         _id: row.key, 
@@ -110,13 +110,13 @@ class ArchivedConflicts extends LitElement {
 
   async loadDoc(docId) {
     const groupId = window.location.pathname.split('/')[2]
-    const currentDoc = (await axios.get(`/db/${groupId}/${docId}`)).data
-    const result = await axios.get(`/db/${groupId}-conflict-revs/_design/byConflictDocId/_view/byConflictDocId?reduce=false&keys=["${docId}"]`)
+    const currentDoc = (await get(`${this.dbUrl}/${docId}`)).data
+    const result = await get(`${this.dbUrl}-conflict-revs/_design/byConflictDocId/_view/byConflictDocId?reduce=false&keys=["${docId}"]`)
     const conflictRevisionDocIds = result.data.rows.map(row => row.id) 
     let conflicts = []
     if (conflictRevisionDocIds) {
       for (const conflictRevisionDocId of conflictRevisionDocIds) {
-        const conflictRevisionDoc = (await axios.get(`/db/${groupId}-conflict-revs/${conflictRevisionDocId}`)).data
+        const conflictRevisionDoc = (await get(`/db/${groupId}-conflict-revs/${conflictRevisionDocId}`)).data
         // Transform a conflictRevisionDoc to the actual doc at the time of the revision.
         delete conflictRevisionDoc._id
         delete conflictRevisionDoc.conflictDocId
