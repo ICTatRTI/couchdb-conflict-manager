@@ -5,10 +5,10 @@ import * as Jsondiffpatch from 'jsondiffpatch'
 import PouchDB from 'pouchdb'
 var jsondiffpatch = Jsondiffpatch.create({});
 
-async function archiveConflicts(dbPath, docId) {
+async function archiveConflicts(dbUrl, docId) {
   try {
-    const dbSource = new PouchDB(dbPath)
-    const dbConflictRevs = new PouchDB(`${dbPath}-conflict-revs`)
+    const dbSource = new PouchDB(dbUrl)
+    const dbConflictRevs = new PouchDB(`${dbUrl}-conflict-revs`)
     const doc = await dbSource.get(docId, {conflicts: true})
     for (let conflictRev of doc._conflicts) {
       const conflictRevDoc = await dbSource.get(docId, {rev: conflictRev})
@@ -219,7 +219,7 @@ class ActiveConflicts extends LitElement {
     }
     // Archive.
     if (shouldArchive) {
-      await archiveConflicts(this.dbPath, docId)
+      await archiveConflicts(this.dbUrl, docId)
     }
     // Log.
     await this.logDb.post({
@@ -230,7 +230,7 @@ class ActiveConflicts extends LitElement {
       activeConflictRevs: this.selection.conflicts.map(conflict => conflict.rev), 
       timestamp: new Date().toISOString(),
       comment,
-      user: await T.user.getCurrentUser()
+      user: this.username
     })
     // Reload UI.
     if (shouldArchive) {
