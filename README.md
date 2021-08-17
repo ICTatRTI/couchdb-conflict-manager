@@ -1,21 +1,33 @@
 # \<couchdb-conflict-manager\>
 
+CouchDB Conflict Manager offers a workflow for resolving database conflicts that promotes traceability. Users can monitor the Active Conflicts list, and when a conflict is resolved, conflict revs are deleted from the source database but those conflict revs are also stashed in a separate database as an Archived Conflict and the action is logged in a separate log database. CouchDB Conflict Manager also offers a "Search Active Conflicts" feature that allows full text matching on revs in conflict. Heavy on memory but helpful for finding something that may seem to have gotten lost in a conflict rev.
 
-
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed. Run `npm install` to install your element's dependencies, then run `polymer serve` to serve your element locally.
-
-## Viewing Your Element
+## Install
+To integrate into your web project, install via npm and then import from where it makes sense in your app. In an Angular App for example, adding the import statement to `polyfills.ts` could be a spot.
 
 ```
-$ polymer serve
+npm install --save couchdb-conflict-manager
 ```
 
-## Running Tests
-
 ```
-$ polymer test
+import 'couchdb-conflict-manager'
 ```
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+## Usage
+Declare the element in your app and feed it a URL of a database to manage conflicts on.
+
+```html
+<couchdb-conflict-manager dbUrl="https://user:pass@example.com:5984/some-database"></couchdb-conflict-manager>
+```
+
+When the element has been configured to a database, the element will first prompt to install the dependencies on your server. This entails a few new databases and some views.
+
+## Develop
+0. Clone this repository.
+1. Set up a CouchDB install with CORS enabled, create a user and a database.
+2. In this repository, add `config.json` with URL containing credentials to the db `{ "dbUrl": "http://user:pass@localhost:5984/test" }`.
+3. In this repo, install dependencies with `npm install`.
+4. Run the dev server with `npm start` and open http://localhost:8080/. You will find the `<couchdb-conflict-manager>` element has been templated out for you with your dbUrl configuration from `config.json`. 
+
+## Test
+We're still finalizing the test harness on this project.
