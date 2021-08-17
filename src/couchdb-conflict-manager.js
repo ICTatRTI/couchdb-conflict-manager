@@ -2,6 +2,7 @@ import './archived-conflicts.js'
 import './active-conflicts.js'
 import './data-log.js'
 import './search-active-conflicts.js'
+import '@polymer/paper-button'
 import PouchDB from 'pouchdb'
 import { LitElement, html } from 'lit-element'
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
