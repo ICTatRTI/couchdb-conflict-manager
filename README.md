@@ -17,6 +17,12 @@ import 'couchdb-conflict-manager'
 Declare the element in your app and feed it a URL of a database to manage conflicts on.
 
 ```html
+<style>
+    /* Theme */
+    * { 
+        --mdc-theme-secondary: #333;
+    }
+</style>
 <couchdb-conflict-manager dbUrl="https://user:pass@example.com:5984/some-database"></couchdb-conflict-manager>
 ```
 
