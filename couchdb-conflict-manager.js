@@ -2,8 +2,10 @@ import './archived-conflicts.js'
 import './active-conflicts.js'
 import './data-log.js'
 import './search-active-conflicts.js'
+import PouchDB from 'pouchdb'
 import { LitElement, html } from 'lit-element'
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
+import { get, put } from './http.js'
 
 class CouchdbConflictManager extends LitElement {
 
@@ -11,7 +13,8 @@ class CouchdbConflictManager extends LitElement {
     return { 
       dbUrl: { type: String },
       route: { type: String },
-      ready: { type: String }
+      ready: { type: Boolean },
+      needsInstall: { type: Boolean }
     };
   }
 
@@ -19,12 +22,20 @@ class CouchdbConflictManager extends LitElement {
     super()
     window.App = this
     this.ready = false
+    this.needsInstall = false
     this.route = window.route || localStorage.getItem('route') || ''
   }
 
   async connectedCallback() {
     super.connectedCallback()
-    this.ready = true
+    try {
+      await get(`${this.dbUrl}-log`)
+    } catch(err) {
+      this.needsInstall = true
+    }
+    if (!this.needsInstall) {
+      this.ready = true
+    }
   }
 
   setRoute(route) {
@@ -74,7 +85,11 @@ class CouchdbConflictManager extends LitElement {
           z-index: 98765456789876545678;
         }
       </style>
-      ${!this.ready ? html`Loading...`:``}
+      ${!this.ready && !this.needsInstall ? html`Loading...`:``}
+      ${this.needsInstall === true ? html`
+        Installation is needed. Click install button. <br>
+        <paper-button @click="${() => this.install()}">install</paper-button> 
+      `: ''}
       ${this.ready ? html`
         ${this.route === '' ? html`
           <h1 style="margin-left: 15px;">Data Tools</h1>
@@ -104,8 +119,37 @@ class CouchdbConflictManager extends LitElement {
     `
   }
 
-  open(route) {
-    this.route = route
+  async install() {
+    await put(`${this.dbUrl}-log`)
+    const conflictsDdoc = {
+      _id: '_design/conflicts',
+      views: {
+        conflicts: {
+          map: function(doc) {
+            if (doc._conflicts) {
+              emit(doc._id, doc._conflicts.length)
+            }
+          }.toString()
+        }
+      }
+    }
+    const db = new PouchDB(this.dbUrl)
+    await db.put(conflictsDdoc)
+    const byConflictDocIdDdoc = {
+      _id: '_design/byConflictDoc',
+      views: {
+        byConflictDoc: {
+          map: function(doc) {
+            emit(doc.conflictDocId, doc.conflictRev);
+          }.toString(),
+          reduce: '_count'
+        }
+      }
+    }
+    const dbConflictRev = new PouchDB(`${this.dbUrl}-conflict-rev`)
+    await dbConflictRev.put(byConflictDocIdDdoc)
+    this.needsInstall = false
+    this.ready = true
   }
 
 }
