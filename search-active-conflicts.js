@@ -16,6 +16,7 @@ class SearchActiveConflicts extends LitElement {
 
   static get properties(){
     return {
+      dbUrl: { type: String },
       searchString: { type: String },
       loadCount: { type: Number },
       selection: { type: Object },
@@ -37,7 +38,7 @@ class SearchActiveConflicts extends LitElement {
   async connectedCallback() {
     super.connectedCallback()
     const groupId = window.location.pathname.split('/')[2]
-    const result = await axios.get(`/db/${groupId}/_design/syncConflicts/_view/syncConflicts`)
+    const result = await axios.get(`${this.dbUrl}/_design/syncConflicts/_view/syncConflicts`)
     const conflictInfos = []
     for (let row of result.data.rows) {
       const conflictInfo = await this.getDocConflictInfo(row.id)
@@ -160,13 +161,13 @@ class SearchActiveConflicts extends LitElement {
 
   async getDocConflictInfo(docId) {
     const groupId = window.location.pathname.split('/')[2]
-    const currentDoc = (await axios.get(`/db/${groupId}/${docId}`)).data
-    const docWithConflictRevs = (await axios.get(`/db/${groupId}/${docId}?conflicts=true`)).data
+    const currentDoc = (await axios.get(`${this.dbUrl}/${docId}`)).data
+    const docWithConflictRevs = (await axios.get(`${this.dbUrl}/${docId}?conflicts=true`)).data
     const conflictRevisionIds = docWithConflictRevs._conflicts
     let conflicts = []
     if (conflictRevisionIds) {
       for (const conflictRevisionId of conflictRevisionIds) {
-        const conflictRevisionDoc = (await axios.get(`/db/${groupId}/${docId}?rev=${conflictRevisionId}`)).data
+        const conflictRevisionDoc = (await axios.get(`${this.dbUrl}/${docId}?rev=${conflictRevisionId}`)).data
         const comparison = jsondiffpatch.diff(currentDoc, conflictRevisionDoc)
         const conflict = {
           doc: conflictRevisionDoc,

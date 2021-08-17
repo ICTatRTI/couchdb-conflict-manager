@@ -35,7 +35,7 @@ class ActiveConflicts extends LitElement {
 
   static get properties(){
     return {
-      dbPath: { type: String },
+      dbUrl: { type: String },
       selection: { type: Object },
       ready: { type: Boolean },
       list: { type: Array }
@@ -50,14 +50,12 @@ class ActiveConflicts extends LitElement {
     this.conflictInfos = []
     this.matches = []
     this.selection = { conflicts:[] }
-    // Fall back to a tangerine specific path for the database.
-    this.dbPath = this.dbPath || `${window.location.protocol}` + '//' + `${window.location.host}/db/${window.location.pathname.split('/')[2]}`
-    this.db = new PouchDB(this.dbPath)
-    this.logDb = new PouchDB(`${this.dbPath}-log`)
+    this.logDb = new PouchDB(`${this.dbUrl}-log`)
   }
 
   async connectedCallback() {
     super.connectedCallback()
+    this.db = new PouchDB(this.dbUrl)
     this.loadList()
   }
 

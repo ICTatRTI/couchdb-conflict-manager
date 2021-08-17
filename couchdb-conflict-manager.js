@@ -86,19 +86,19 @@ class CouchdbConflictManager extends LitElement {
           </ul>
         `: ``}
         ${this.route !== '' ? html`
-          <paper-button @click="${() => App.go('')}">< BACK</paper-button> 
+          <paper-button @click="${() => this.go('')}">< BACK</paper-button> 
         `: ``}
         ${this.route === 'archived-conflicts' ? html`
-          <archived-conflicts></archived-conflicts>
+          <archived-conflicts dbUrl="${this.dbUrl}"></archived-conflicts>
         `: ``}
         ${this.route === 'active-conflicts' ? html`
-          <active-conflicts></active-conflicts>
+          <active-conflicts dbUrl="${this.dbUrl}"></active-conflicts>
         `: ``}
         ${this.route === 'data-log' ? html`
-          <data-log></data-log>
+          <data-log dbUrl="${this.dbUrl}"></data-log>
         `: ``}
         ${this.route === 'search-active-conflicts' ? html`
-          <search-active-conflicts></search-active-conflicts>
+          <search-active-conflicts dbUrl="${this.dbUrl}"></search-active-conflicts>
         `: ``}
       `: ``}
     `

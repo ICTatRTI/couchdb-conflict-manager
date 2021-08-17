@@ -16,6 +16,7 @@ class DataLog extends LitElement {
 
   static get properties(){
     return {
+      dbUrl: { type: String },
       selection: { type: Object },
       ready: { type: Boolean },
       list: { type: Array }
@@ -34,7 +35,7 @@ class DataLog extends LitElement {
   async connectedCallback() {
     super.connectedCallback()
     const groupId = window.location.pathname.split('/')[2]
-    const result = await axios.get(`/db/${groupId}-log/_all_docs?include_docs=true`)
+    const result = await axios.get(`${this.dbUrl}-log/_all_docs?include_docs=true`)
     this.list = result.data.rows
       .map(row => row.doc)
       .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
