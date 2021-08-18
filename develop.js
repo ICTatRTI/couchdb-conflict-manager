@@ -6,5 +6,5 @@ document.body.innerHTML = `
       --mdc-theme-secondary: #333;
     }
   </style>
-  <couchdb-conflict-manager dbUrl="${config.dbUrl}"></couchdb-conflict-manager>
+  <couchdb-conflict-manager dbUrl="${config.dbUrl}" username="${config.username}"></couchdb-conflict-manager>
 `

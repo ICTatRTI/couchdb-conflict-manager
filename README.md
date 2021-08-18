@@ -14,7 +14,7 @@ import 'couchdb-conflict-manager'
 ```
 
 ## Usage
-Declare the element in your app and feed it a URL of a database to manage conflicts on.
+Declare the element in your app and feed it a URL of a database to manage conflicts on along with a username which is not necessarily the couchdb username to tie actions to in the logs.
 
 ```html
 <style>
@@ -23,7 +23,7 @@ Declare the element in your app and feed it a URL of a database to manage confli
         --mdc-theme-secondary: #333;
     }
 </style>
-<couchdb-conflict-manager dbUrl="https://user:pass@example.com:5984/some-database"></couchdb-conflict-manager>
+<couchdb-conflict-manager dbUrl="https://user:pass@example.com:5984/some-database" username="rjcorwin"></couchdb-conflict-manager>
 ```
 
 When the element has been configured to a database, the element will first prompt to install the dependencies on your server. This entails a few new databases and some views.
@@ -31,7 +31,7 @@ When the element has been configured to a database, the element will first promp
 ## Develop
 0. Clone this repository.
 1. Set up a CouchDB install with CORS enabled, create a user and a database.
-2. In this repository, add `config.json` with URL containing credentials to the db `{ "dbUrl": "http://user:pass@localhost:5984/test" }`.
+2. In this repository, add `config.json` with URL containing credentials to the db and username `{ "dbUrl": "http://user:pass@localhost:5984/test", "username": "yourName" }`.
 3. In this repo, install dependencies with `npm install`.
 4. Run the dev server with `npm start` and open http://localhost:8080/. You will find the `<couchdb-conflict-manager>` element has been templated out for you with your dbUrl configuration from `config.json`. 
 

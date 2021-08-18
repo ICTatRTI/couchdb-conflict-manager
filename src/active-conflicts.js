@@ -36,6 +36,7 @@ class ActiveConflicts extends LitElement {
   static get properties(){
     return {
       dbUrl: { type: String },
+      username: { type: String },
       selection: { type: Object },
       ready: { type: Boolean },
       list: { type: Array }
