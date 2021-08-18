@@ -30,7 +30,7 @@ When the element has been configured to a database, the element will first promp
 
 ## Develop
 0. Clone this repository.
-1. Set up a CouchDB install with CORS enabled, create a user and a database.
+1. Set up a CouchDB install with CORS enabled, create a user and a database. e.g. `docker run -p 5984:5984 --env "COUCHDB_USER=admin" --env "COUCHDB_PASSWORD=some-secure-password" couchdb`
 2. In this repository, add `config.json` with URL containing credentials to the db and username `{ "dbUrl": "http://user:pass@localhost:5984/test", "username": "yourName" }`.
 3. In this repo, install dependencies with `npm install`.
 4. Run the dev server with `npm start` and open http://localhost:8080/. You will find the `<couchdb-conflict-manager>` element has been templated out for you with your dbUrl configuration from `config.json`. 
