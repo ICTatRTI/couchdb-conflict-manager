@@ -35,9 +35,8 @@ class ArchivedConflicts extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
-    const groupId = window.location.pathname.split('/')[2]
     const result = await get(`${this.dbUrl}-conflict-revs/_design/byConflictDocId/_view/byConflictDocId?reduce=true&group_level=1`)
-    this.list = result.data.rows.map(row => {
+    this.list = result.rows.map(row => {
       return { 
         _id: row.key, 
         numberOfConflicts: row.value
@@ -109,14 +108,13 @@ class ArchivedConflicts extends LitElement {
   }
 
   async loadDoc(docId) {
-    const groupId = window.location.pathname.split('/')[2]
-    const currentDoc = (await get(`${this.dbUrl}/${docId}`)).data
+    const currentDoc = await get(`${this.dbUrl}/${docId}`)
     const result = await get(`${this.dbUrl}-conflict-revs/_design/byConflictDocId/_view/byConflictDocId?reduce=false&keys=["${docId}"]`)
-    const conflictRevisionDocIds = result.data.rows.map(row => row.id) 
+    const conflictRevisionDocIds = result.rows.map(row => row.id) 
     let conflicts = []
     if (conflictRevisionDocIds) {
       for (const conflictRevisionDocId of conflictRevisionDocIds) {
-        const conflictRevisionDoc = (await get(`/db/${groupId}-conflict-revs/${conflictRevisionDocId}`)).data
+        const conflictRevisionDoc = await get(`${this.dbUrl}-conflict-revs/${conflictRevisionDocId}`)
         // Transform a conflictRevisionDoc to the actual doc at the time of the revision.
         delete conflictRevisionDoc._id
         delete conflictRevisionDoc.conflictDocId
