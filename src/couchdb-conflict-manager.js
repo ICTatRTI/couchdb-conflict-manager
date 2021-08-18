@@ -139,9 +139,9 @@ class CouchdbConflictManager extends LitElement {
     const db = new PouchDB(this.dbUrl)
     await db.put(conflictsDdoc)
     const byConflictDocIdDdoc = {
-      _id: '_design/byConflictDoc',
+      _id: '_design/byConflictDocId',
       views: {
-        byConflictDoc: {
+        byConflictDocId: {
           map: function(doc) {
             emit(doc.conflictDocId, doc.conflictRev);
           }.toString(),
@@ -149,7 +149,7 @@ class CouchdbConflictManager extends LitElement {
         }
       }
     }
-    const dbConflictRev = new PouchDB(`${this.dbUrl}-conflict-rev`)
+    const dbConflictRev = new PouchDB(`${this.dbUrl}-conflict-revs`)
     await dbConflictRev.put(byConflictDocIdDdoc)
     this.needsInstall = false
     this.ready = true
