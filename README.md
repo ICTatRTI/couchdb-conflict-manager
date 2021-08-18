@@ -1,5 +1,7 @@
 # \<couchdb-conflict-manager\>
 
+[Demo Video](https://youtu.be/DvJ1gMdjOD4)
+
 CouchDB Conflict Manager offers a workflow for resolving database conflicts that promotes traceability. Users can monitor the Active Conflicts list, and when a conflict is resolved, conflict revs are deleted from the source database but those conflict revs are also stashed in a separate database as an Archived Conflict and the action is logged in a separate log database. CouchDB Conflict Manager also offers a "Search Active Conflicts" feature that allows full text matching on revs in conflict. Heavy on memory but helpful for finding something that may seem to have gotten lost in a conflict rev.
 
 ## Install
