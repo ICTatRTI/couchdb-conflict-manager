@@ -37,10 +37,9 @@ class SearchActiveConflicts extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
-    const groupId = window.location.pathname.split('/')[2]
-    const result = await get(`${this.dbUrl}/_design/syncConflicts/_view/syncConflicts`)
+    const result = await get(`${this.dbUrl}/_design/conflicts/_view/conflicts`)
     const conflictInfos = []
-    for (let row of result.data.rows) {
+    for (let row of result.rows) {
       const conflictInfo = await this.getDocConflictInfo(row.id)
       conflictInfos.push(conflictInfo)
       this.loadCount = this.loadCount + 1
@@ -160,14 +159,13 @@ class SearchActiveConflicts extends LitElement {
 
 
   async getDocConflictInfo(docId) {
-    const groupId = window.location.pathname.split('/')[2]
-    const currentDoc = (await get(`${this.dbUrl}/${docId}`)).data
-    const docWithConflictRevs = (await get(`${this.dbUrl}/${docId}?conflicts=true`)).data
+    const currentDoc = await get(`${this.dbUrl}/${docId}`)
+    const docWithConflictRevs = await get(`${this.dbUrl}/${docId}?conflicts=true`)
     const conflictRevisionIds = docWithConflictRevs._conflicts
     let conflicts = []
     if (conflictRevisionIds) {
       for (const conflictRevisionId of conflictRevisionIds) {
-        const conflictRevisionDoc = (await get(`${this.dbUrl}/${docId}?rev=${conflictRevisionId}`)).data
+        const conflictRevisionDoc = await get(`${this.dbUrl}/${docId}?rev=${conflictRevisionId}`)
         const comparison = jsondiffpatch.diff(currentDoc, conflictRevisionDoc)
         const conflict = {
           doc: conflictRevisionDoc,
