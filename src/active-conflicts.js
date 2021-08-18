@@ -50,12 +50,12 @@ class ActiveConflicts extends LitElement {
     this.conflictInfos = []
     this.matches = []
     this.selection = { conflicts:[] }
-    this.logDb = new PouchDB(`${this.dbUrl}-log`)
   }
 
   async connectedCallback() {
     super.connectedCallback()
     this.db = new PouchDB(this.dbUrl)
+    this.logDb = new PouchDB(`${this.dbUrl}-log`)
     this.loadList()
   }
 
