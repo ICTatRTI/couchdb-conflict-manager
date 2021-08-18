@@ -33,9 +33,8 @@ class DataLog extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
-    const groupId = window.location.pathname.split('/')[2]
     const result = await get(`${this.dbUrl}-log/_all_docs?include_docs=true`)
-    this.list = result.data.rows
+    this.list = result.rows
       .map(row => row.doc)
       .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
     this.ready = true
