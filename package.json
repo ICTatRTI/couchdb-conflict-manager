@@ -1,9 +1,10 @@
 {
   "name": "couchdb-conflict-manager",
-  "private": true,
+  "private": false,
+  "version": "0.0.0",
   "scripts": {
     "start": "webpack serve --open",
-    "build": "webpack",
+    "build": "./node_modules/.bin/webpack  ./src/couchdb-conflict-manager.js --no-optimization-minimize -d source-map --output-filename index.js -o ./",
     "test": "webpack && polymer test -l chrome"
   },
   "dependencies": {
