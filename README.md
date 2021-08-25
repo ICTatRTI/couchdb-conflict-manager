@@ -12,7 +12,7 @@ npm install --save couchdb-conflict-manager
 ```
 
 ```
-import 'couchdb-conflict-manager'
+import 'couchdb-conflict-manager/dist/index.js'
 ```
 
 ## Usage
