@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "webpack serve --open",
-    "build": "./node_modules/.bin/webpack  ./src/couchdb-conflict-manager.js --no-optimization-minimize -d source-map --output-filename index.js -o ./",
+    "build": "./node_modules/.bin/webpack  ./src/couchdb-conflict-manager.js --no-optimization-minimize -d source-map --output-filename index.js -o ./dist/",
     "test": "webpack && polymer test -l chrome"
   },
   "dependencies": {
