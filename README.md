@@ -8,11 +8,13 @@ CouchDB Conflict Manager offers a workflow for resolving database conflicts that
 To integrate into your web project, install via npm and then import from where it makes sense in your app. In an Angular App for example, adding the import statement to `polyfills.ts` could be a spot.
 
 ```
+npm install --save git://github.com/rjsteinert/juicy-ace-editor.git#ES6-modules
 npm install --save couchdb-conflict-manager
 ```
 
 ```
-import 'couchdb-conflict-manager/dist/index.js'
+import 'juicy-ace-editor/juicy-ace-editor-module.js'
+import 'couchdb-conflict-manager/src/couchdb-conflict-manager.js'
 ```
 
 ## Usage

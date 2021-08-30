@@ -1,3 +1,4 @@
+import 'juicy-ace-editor/juicy-ace-editor-module.js'
 import './src/couchdb-conflict-manager.js'
 const config = require('./config.json') 
 document.body.innerHTML = `
