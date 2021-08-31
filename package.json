@@ -3,8 +3,8 @@
   "private": false,
   "version": "0.0.8",
   "scripts": {
-    "start": "webpack serve --open",
-    "build": "./node_modules/.bin/webpack  ./src/couchdb-conflict-manager.js --no-optimization-minimize -d source-map --output-filename index.js -o ./dist/ --config ./webpack-dev.config.js && mv ./dist/index.js ./ && mv ./dist/index.js.map ./",
+    "start": "webpack serve --config ./webpack-dev.config.js --open",
+    "build": "./node_modules/.bin/webpack  ./src/couchdb-conflict-manager.js --no-optimization-minimize -d source-map --output-filename index.js -o ./dist/ && mv ./dist/index.js ./ && mv ./dist/index.js.map ./",
     "test": "webpack && polymer test -l chrome"
   },
   "dependencies": {
