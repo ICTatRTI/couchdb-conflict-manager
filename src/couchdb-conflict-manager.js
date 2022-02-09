@@ -16,7 +16,8 @@ class CouchdbConflictManager extends LitElement {
       username: { type: String },
       route: { type: String },
       ready: { type: Boolean },
-      needsInstall: { type: Boolean }
+      needsInstall: { type: Boolean },
+      id: { type: String }
     };
   }
 
@@ -26,6 +27,7 @@ class CouchdbConflictManager extends LitElement {
     this.ready = false
     this.needsInstall = false
     this.route = window.route || localStorage.getItem('route') || ''
+    this.id = localStorage.getItem('id') || ''
   }
 
   async connectedCallback() {

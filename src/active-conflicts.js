@@ -71,6 +71,9 @@ class ActiveConflicts extends LitElement {
         numberOfConflicts: row.value
       }
     })
+    if (this.id !== ''){
+      await this.loadDoc(this.id)
+    }
     this.ready = true
   }
 

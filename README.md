@@ -34,6 +34,8 @@ Declare the element in your app and feed it a URL of a database to manage confli
 
 When the element has been configured to a database, the element will first prompt to install the dependencies on your server. This entails a few new databases and some views.
 
+If there is an 'id' in localstorage, active conflicts will load that conflict's diffs.
+
 ## Develop
 0. Clone this repository.
 1. Set up a CouchDB install with CORS enabled, create a user and a database. e.g. `docker run -p 5984:5984 --env "COUCHDB_USER=admin" --env "COUCHDB_PASSWORD=some-secure-password" couchdb`
